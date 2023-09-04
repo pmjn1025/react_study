@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <!-- react import -->
+  <script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
+  <!-- babel import(jsx ->react로 변환) -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <!-- 바벨 사용시 type 입력해주어야 한다. -->
+  <script type="text/babel">
+    function App() {
+      // 바닐라JS가 HTML의 큰틀을 가져와서 기능별로 만들었다면
+      // , ReactJS는 이 기능을 더 세부적인 기능(component)으로 나눠서 개발한다.
+      let [counter, setCounter] = React.useState(0)
+
+      console.log(counter)
+
+      const onClick = () => {
+        // React.useState() modifier의 2가지 사용법
+        // setCounter(counter + 1)
+
+        // modifier에도 함수를 넣을수 있는데, 첫번째 매개변수가 현재 데이터의 값이다.
+        // 이것이 좀 더 안전한 방법이다. react에서 현재 어떤 데이터인지 정확히 알수 있다.
+        // 따라서 다음에 나올 state의 값이 지금 정확한 현재 값에 기반하여야 한다.
+        setCounter((current) => current + 1)
+      }
+
+      return (
+        <div>
+          <h3>Total Click : {counter}</h3>
+          <button onClick={onClick}>Click me</button>
+        </div>
+      )
+    }
+    const root = document.querySelector('#root')
+    ReactDOM.render(<App />, root) // 생성한 element를 root인 위치에 그려줌(ReactDOM.render())
+  </script>
+</html>

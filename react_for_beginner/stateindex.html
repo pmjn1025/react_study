@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <!-- react import -->
+  <script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
+  <!-- babel import(jsx ->react로 변환) -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <!-- 바벨 사용시 type 입력해주어야 한다. -->
+  <script type="text/babel">
+    // ** React.createElement()내용을 잘보기
+
+    const root = document.querySelector('#root')
+    //state : 우리가 클릭할때마다 1씩 증가하는 데이터를 출력해줄 것이다.
+    //ReactJS에서 1씩 증가하는 데이터를(값이 변경되는 데이터를) 어떻게 담아줄것인가? --> state
+    // render()로 계속 호출하는 것은 최선의 방법이 아니다.
+    let countNum = 0
+    function countAfter() {
+      countNum++
+      render()
+    }
+
+    function render() {
+      ReactDOM.render(<App />, root) // 생성한 element를 root인 위치에 그려줌(ReactDOM.render())
+    }
+
+    const App = () => (
+      <div>
+        <h3>Total Click : {countNum}</h3>
+        <button onClick={countAfter}>Click me</button>
+      </div>
+    )
+    render()
+  </script>
+</html>

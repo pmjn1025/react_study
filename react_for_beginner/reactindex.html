@@ -5,7 +5,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
   </head>
-  <body></body>
+  <body>
+    <div id="root"></div>
+  </body>
   <script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
   <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
+  <script>
+    // ** React.createElement()내용을 잘보기
+
+    const root = document.querySelector('#root')
+
+    // react로 span태그를 생성
+    // 매개변수 순서 (엘리먼트, id or class , contents) 아래 잘보기
+    // 여기서 h3이라는 것이 component이다.
+    const h3 = React.createElement(
+      'h3',
+      //{ id: 'sexy-span', style: { color: 'blue' } },
+      {
+        id: 'sexy-span',
+        style: { color: 'blue' },
+        onMouseEnter: () => console.log('mouseEntered'),
+      }, // 이부분을 propertys --> props
+      'hello reactWorld im span',
+    )
+    // react로 button태그를 생성
+    const button = React.createElement(
+      'button',
+      { onClick: () => console.log('im clicked') },
+      'Click me',
+    )
+
+    // react로 생성한 span, button 엘리먼트를 가지고 있는 div태그 생성 --> 배열로 나타내고 있는 것을 잘보자
+    const container = React.createElement('div', null, [h3, button])
+    ReactDOM.render(container, root) // 생성한 element를 root인 위치에 그려줌(ReactDOM.render())
+  </script>
 </html>
