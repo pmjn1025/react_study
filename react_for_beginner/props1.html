@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <!-- react import -->
+  <!-- <script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script> -->
+  <script src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js"></script>
+  <!-- babel import(jsx ->react로 변환) -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <!-- 바벨 사용시 type 입력해주어야 한다. -->
+  <script type="text/babel">
+    // props.html에서 계속
+    // 따라서 버튼 컴포넌트를 만들어서 재활용할 수있다.
+    // 하나의 컴포넌트(객체와 비슷)에서 자식 컴포넌트 props에 따라서 다르게 출력하면 어떨까?
+    // 부모 컴포넌트에서 정의한 자식 컴포넌트의 props를 받기위해서는 아래와 같이 할수있다.
+    // props는 하나의 인자만 있다.
+
+    /*function Btn(props) {
+       console.log(props)
+       return (
+         <button
+           style={{
+             backgroundColor: 'brown',
+             color: 'White',
+             padding: '10px 20px',
+             border: 0,
+             borderRadius: 10,
+           }}
+         >
+           {props.text}
+         </button>
+       )
+     }
+    */
+
+    // 위 방식 말고 바로 props.text를 받는 방법은 아래와 같다
+    // {text}를 넣어주면 props.text와 같다.
+    function Btn({ text, big, bName }) {
+      console.log({ text, big, bName })
+
+      const handleClick = (event) => {
+        BtnClick(event, bName)
+      }
+
+      return (
+        <button
+          style={{
+            backgroundColor: 'brown',
+            color: 'White',
+            padding: '10px 20px',
+            border: 0,
+            borderRadius: 10,
+            fontSize: big ? 18 : 10,
+          }}
+          onClick={handleClick}
+        >
+          {text}
+        </button>
+      )
+    }
+
+    function BtnClick(event, bName) {
+      console.log(event)
+      console.log(bName)
+
+      if (bName === 'sChange') {
+        return alert('변경완료되었습니다.')
+      }
+
+      if (bName === 'sConfirm') {
+        alert('확인되었습니다.')
+      }
+    }
+    function App() {
+      // component는 항상 첫글자 대문자로
+      // 부모컴포넌트에 있는 자식 컴포넌트의 properties를 자식 컴포넌트(함수)에 보내서 다르게 출력이 가능하다.
+      // 자식 props에 있는 것(html의 tag의 type과 같은거)은 마음대로 정의가능하다.(나는 text로 정의한것일 뿐이다.)
+      return (
+        <div>
+          <h1>Your Profile</h1>
+          <Btn text="Save Changes" bName="sChange" big={true} />
+          <span> </span>
+          <Btn text="Confirm" bName="sConfirm" big={false} />
+        </div>
+      )
+    }
+    const root = document.querySelector('#root')
+    ReactDOM.render(<App />, root) // 생성한 element를 root인 위치에 그려줌(ReactDOM.render())
+  </script>
+</html>

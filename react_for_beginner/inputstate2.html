@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <!-- react import -->
+  <!-- <script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script> -->
+  <script src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js"></script>
+  <!-- babel import(jsx ->react로 변환) -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <!-- 바벨 사용시 type 입력해주어야 한다. -->
+  <script type="text/babel">
+    // 지금 아래의 3개의 컴포넌트가 있다.
+    function MinutesToHours() {
+      const [amount, setAmount] = React.useState(0)
+      const [flipped, setFlipped] = React.useState(false)
+      // 여기서도 event를 사용할수 있다.
+      const onChange = (event) => {
+        console.log(event.target.value)
+        setAmount((current) => event.target.value)
+      }
+
+      const reset = () => {
+        setAmount((current) => 0)
+      }
+
+      // 이 메서드는 위의 메서드와 전혀 다른 값이지만 변수명만 같다.
+      // 위에 useState잘보기
+      const onfilp = () => {
+        reset()
+        setFlipped((current) => !current)
+      }
+
+      return (
+        <div>
+          <h3>Minutes && HOURS</h3>
+          <div>
+            <label htmlFor="minutes">Minutes : </label>
+            <input
+              id="minutes"
+              placeholder="Minutes"
+              type="number"
+              value={flipped === true ? amount * 60 : amount}
+              onChange={onChange}
+              // JSX덕분에 html형식으로 if문 형식을 작동시킬수 있다
+              // 뜻 : 만약 flipped가 true이면 disable ={true}이다.
+              disabled={flipped === true}
+            />
+          </div>
+          <div>
+            <label htmlFor="hours">Hours : </label>
+            <input
+              id="hours"
+              placeholder="Hours"
+              type="number"
+              // flipped === true filp : 키를 눌렀을때
+              // Why? --> React.useState(false)로 초기값을 false로 했으니까
+              value={flipped === true ? amount : Math.round(amount / 60)}
+              onChange={onChange}
+              // JSX덕분에 html형식으로 if문 형식을 작동시킬수 있다
+              // 뜻 : 만약 flipped가 false이면 disable ={true}이다.
+              disabled={flipped === false}
+            />
+          </div>
+          <button onClick={reset}>Reset</button>
+          <span> </span>
+          <button onClick={onfilp}>
+            {flipped === true ? '분을 시간으로 변환' : '시간을 분으로 변환'}
+          </button>
+        </div>
+      )
+    }
+
+    function KmToMiles() {
+      const [amount, setAmount] = React.useState(0)
+      const [flip, setflip] = React.useState(false)
+
+      function onChange(event) {
+        setAmount(event.target.value)
+      }
+
+      function reset() {
+        setAmount((current) => 0)
+      }
+
+      function onfilp() {
+        reset()
+        setflip((current) => !current)
+      }
+
+      return (
+        <div>
+          <h3>KM && Miles</h3>
+          <div>
+            <label htmlFor="km"> km : </label>
+            <input
+              id="km"
+              placeholder="Km"
+              type="number"
+              value={flip === false ? amount : amount * 1.609}
+              onChange={onChange}
+              disabled={flip === true}
+            />
+          </div>
+          <div>
+            <label htmlFor="miles"> miles : </label>
+            <input
+              id="miles"
+              placeholder="miles"
+              type="number"
+              value={flip === false ? amount / 1.609 : amount}
+              onChange={onChange}
+              disabled={flip === false}
+            />
+          </div>
+          <button onClick={reset}>Reset</button>
+          <button onClick={onfilp}>flip</button>
+        </div>
+      )
+    }
+    // 분할과 정복(divide&Conquer(분할정복))
+    function App() {
+      const [index, setIndex] = React.useState('0')
+      const onSelect = (event) => {
+        console.log(event.target.value)
+        setIndex((current) => event.target.value)
+      }
+      // return문안에 {}를 쓰고 내용은 JS로 작성할 수있다.
+      return (
+        <div>
+          <h1>Super Converter</h1>
+          <select onChange={onSelect} value={index}>
+            <option value="0">Minutes To Hours</option>
+            <option value="1">Kili To Miles</option>
+          </select>
+          <hr />
+          {index === '0' ? <MinutesToHours /> : null}
+          {index === '1' ? <KmToMiles /> : null}
+        </div>
+      )
+    }
+    const root = document.querySelector('#root')
+    ReactDOM.render(<App />, root) // 생성한 element를 root인 위치에 그려줌(ReactDOM.render())
+  </script>
+</html>
+<!-- return문(JSX)안에 {}를 쓰고 내용은 JS로 작성할 수있다. -->
+<!-- UseState에서 setVarible을 실행할때 return문에있는 코드를 리렌더링 시킨다 -->
+
+<!-- <button onClick={reset}>Reset</button> -->
+<!-- const reset = (event) => {
+    console.log(event.target.value)
+    setAmount((current) => 0)
+  } -->
+<!-- 이 함수(reset)는 입력 요소와 연결되어 있지 않으므로(<button>태그에는 value라는 type이 들어갈수 없다)
+      event.target.value 속성을 액세스할 수 없습니다.
+     결과적으로 "Reset" 버튼을 클릭할 때 콘솔에서는 undefined 또는 예상치 못한 값이 나타날 수 있습니다.
+      이는 reset 함수 내에서 event 객체에 target 속성이 없기 때문입니다. -->

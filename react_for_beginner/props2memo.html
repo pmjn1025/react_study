@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <!-- react import -->
+  <!-- <script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script> -->
+  <script src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js"></script>
+  <!-- babel import(jsx ->react로 변환) -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <!-- 바벨 사용시 type 입력해주어야 한다. -->
+  <script type="text/babel">
+    // props.html에서 계속
+    // 따라서 버튼 컴포넌트를 만들어서 재활용할 수있다.
+    // 하나의 컴포넌트(객체와 비슷)에서 자식 컴포넌트 props에 따라서 다르게 출력하면 어떨까?
+    // 부모 컴포넌트에서 정의한 자식 컴포넌트의 props를 받기위해서는 아래와 같이 할수있다.
+    // props는 하나의 인자만 있다.
+
+    /*function Btn(props) {
+           console.log(props)
+           return (
+             <button
+               style={{
+                 backgroundColor: 'brown',
+                 color: 'White',
+                 padding: '10px 20px',
+                 border: 0,
+                 borderRadius: 10,
+               }}
+             >
+               {props.text}
+             </button>
+           )
+         }
+        */
+
+    // 위 방식 말고 바로 props.text를 받는 방법은 아래와 같다
+    // {text}를 넣어주면 props.text와 같다.
+    // onClick은 changeValue()함수이다.
+    function Btn({ text, onClick }) {
+      console.log(text, ' was render ')
+      // 여기서 onClick={Method}가 이벤트 리스너이다.
+      return (
+        <button
+          onClick={onClick}
+          style={{
+            backgroundColor: 'brown',
+            color: 'White',
+            padding: '10px 20px',
+            border: 0,
+            borderRadius: 10,
+          }}
+        >
+          {text}
+        </button>
+      )
+    }
+
+    // 부모 컴포넌트의 state를 변경하면 당연히 그 자식 컴포넌트들도 Re-render가 일어남.
+    // 불필요한 렌더링이 발생할 수도 있는데, 이 경우에는 React.memo()로 prop의 변경이 일어난 부분만 렌더링 시킬 수 있음.
+    // 아주 많은 자식 컴포넌트를 가지고 있는 부모 컴포넌트일 때 사용하면 될 듯.
+    const MemorizedBtn = React.memo(Btn)
+    function App() {
+      // 이번강의에서 <Btn>에 onClick 함수를 추가할것이다.
+      const [value, setValue] = React.useState('Save Changes')
+      const changeValue = () => setValue((currnet) => 'Revert Changes')
+      // 중요 ** 여기서 onClick={changeValue}은 이벤트 리스너가 아니라 props이다!
+      // React.useState(초기값) 에서 setVariable과 관련된 전체가 다시 렌더링된다.
+      // 즉, 부모 컴포넌트가 어떤 state값이 변경이 되면 모든 자식 컴포넌트는 다시 그려질 것
+      //--> react.Memo()를 사용해서 변경된 것만 리렌더링 할수있다.
+      return (
+        <div>
+          <h1>Your Profile</h1>
+          <MemorizedBtn text={value} onClick={changeValue} />
+          <span> </span>
+          <MemorizedBtn text="Confirm" />
+        </div>
+      )
+    }
+    const root = document.querySelector('#root')
+    ReactDOM.render(<App />, root) // 생성한 element를 root인 위치에 그려줌(ReactDOM.render())
+  </script>
+</html>

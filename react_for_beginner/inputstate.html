@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <!-- react import -->
+  <!-- <script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script> -->
+  <script src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js"></script>
+  <!-- babel import(jsx ->react로 변환) -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <!-- 바벨 사용시 type 입력해주어야 한다. -->
+  <script type="text/babel">
+    function App() {
+      // <label>은 <input>옆에 사용하는 태그이다.
+      // HTML에서 <label>태그를 사용할때 <label for='해당 인풋태그 아이디'>를 사용한다.
+      // reactJS(JSX)에서 <h1 className="">, <label>태그를 사용할때 <label htmlFor='해당 인풋태그 아이디'>를 사용한다.
+
+      // 초기값 즉, React.useSate()에서 첫번째 매개변수 값은 비워놓거나, 0, "" 할 수있다.
+      //const [minutes, setMinutes] = React.useState() --> A component is changing an uncontrolled input to be controlled
+      // ==>  React.useState() 초기값(첫번째 매개변수의 값을 설정안해줬기때문)
+      const [minutes, setMinutes] = React.useState(0)
+      // 여기서도 event를 사용할수 있다.
+      const onChangeMin = (event) => {
+        console.log(event.target.value)
+        setMinutes((current) => event.target.value) // minutes를 업데이트 해준다.
+      }
+
+      const reset = (event) => {
+        console.log(event.target.value)
+        setMinutes((current) => 0) // minutes를 업데이트 해준다.
+      }
+
+      return (
+        <div>
+          <div>
+            <h1>Super Converter</h1>
+            <label htmlFor="minutes">Minutes : </label>
+            <input
+              id="minutes"
+              placeholder="Minutes"
+              type="number"
+              value={minutes}
+              onChange={onChangeMin}
+            />
+          </div>
+          <h4>you want convert {minutes} </h4>
+          <div>
+            <label htmlFor="hours">Hours : </label>
+            <input
+              id="hours"
+              placeholder="Hours"
+              type="number"
+              value={Math.round(minutes / 60)}
+              disabled
+            />
+          </div>
+          <button onClick={reset}>Reset</button>
+        </div>
+      )
+    }
+    const root = document.querySelector('#root')
+    ReactDOM.render(<App />, root) // 생성한 element를 root인 위치에 그려줌(ReactDOM.render())
+  </script>
+</html>

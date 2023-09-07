@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <!-- react import -->
+  <!-- <script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script> -->
+  <script src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js"></script>
+  <!-- babel import(jsx ->react로 변환) -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <!-- 바벨 사용시 type 입력해주어야 한다. -->
+  <script type="text/babel">
+    // 분할과 정복(divide&Conquer(분할정복))
+    // App이 부모 컴포넌트 이고 MinutesToHours, KmToMiles가 자식 컴포넌트이다
+    // 이제부터 우리가 할것은 부모 컴포넌트로 부터 자식컴포넌트로 데이터를 보낼것이다.
+
+    // 상황 가정 : 우리가 만들려는 app에 다양한 기능들이 있는 버튼들이 있다.(로그인, 프로필, 화면이동 등등)
+    // 그런데 보면 각 버튼들의 디자인이 동일한 것을 알수있다. --> 디자이너들이 디자인을 만들기 때문
+    // 이렇게 동일한 디자인의 버튼에 대해서 우리가 알고 싶은 것은 어떻게 리액트 컴포넌트를 재활용 할 수 있는 지를 알고싶은것
+
+    // component라고 하는 것은 JSX를 반환하는 함수 일뿐이다.
+    // component는 항상 첫글자 대문자로
+    // SaveBtn(), ConfrimBtn() ==> 함수형 컴포넌트
+    // 이렇게 되면 버튼마다 일일이 스타일 지정해주어야 한다.
+    // props1에서 계속
+    function SaveBtn() {
+      return (
+        <button
+          style={{
+            backgroundColor: 'brown',
+            color: 'White',
+            padding: '10px 20px',
+            border: 0,
+            borderRadius: 10,
+          }}
+        >
+          Save Changes
+        </button>
+      )
+    }
+    function ConfrimBtn() {
+      return (
+        <button
+          style={{
+            backgroundColor: 'brown',
+            color: 'White',
+            padding: '10px 20px',
+            border: 0,
+            borderRadius: 10,
+          }}
+        >
+          Confrim
+        </button>
+      )
+    }
+
+    function App() {
+      // component는 항상 첫글자 대문자로
+      return (
+        <div>
+          <h1>Your Profile</h1>
+          <SaveBtn />
+          <span> </span>
+          <ConfrimBtn />
+        </div>
+      )
+    }
+    const root = document.querySelector('#root')
+    ReactDOM.render(<App />, root) // 생성한 element를 root인 위치에 그려줌(ReactDOM.render())
+  </script>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <!-- react import -->
+  <!-- <script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script> -->
+  <script src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js"></script>
+  <!-- babel import(jsx ->react로 변환) -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <!-- 바벨 사용시 type 입력해주어야 한다. -->
+  <script type="text/babel">
+    const FindMax = ({ nums }) => {
+      const findMax = (arr) => {
+        // 단계 1: 문제를 분할한다.
+        if (arr.length === 1) {
+          return arr[0]
+        }
+
+        const mid = Math.floor(arr.length / 2)
+        const left = arr.slice(0, mid)
+        const right = arr.slice(mid)
+
+        // 단계 2: 부분 문제를 해결한다.
+        const maxLeft = findMax(left)
+        const maxRight = findMax(right)
+
+        // 단계 3: 결과를 합친다.
+        return Math.max(maxLeft, maxRight)
+      }
+
+      const maxNumber = findMax(nums)
+
+      return (
+        <div>
+          <h3>
+            리스트 {nums.join(', ')}에서 최댓값은 {maxNumber}입니다.
+          </h3>
+        </div>
+      )
+    }
+
+    const App = () => {
+      const numbers = [3, 8, 1, 6, 2, 8, 5, 9]
+
+      return (
+        <div>
+          <FindMax nums={numbers} />
+        </div>
+      )
+    }
+
+    const root = document.querySelector('#root')
+    ReactDOM.render(<App />, root) // 생성한 element를 root인 위치에 그려줌(ReactDOM.render())
+  </script>
+</html>
