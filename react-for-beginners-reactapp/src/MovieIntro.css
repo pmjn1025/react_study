@@ -1,0 +1,38 @@
+/* MovieIntro.css */
+.movie-intro {
+  border: 1px solid #ccc;
+  padding: 20px;
+  max-width: 300px;
+  text-align: center;
+  flex: 0 0 calc(33.33% - 20px); /* 가로로 3개씩 정렬하는 스타일 */
+  box-sizing: border-box; /* 요소의 크기 계산에 border와 padding을 포함합니다. */
+  margin: 10px;
+}
+
+.movie-intro-image {
+  width: 100%;
+  height: auto;
+}
+
+.movie-intro-title {
+  font-size: 1.2em;
+  margin: 10px 0;
+}
+
+.movie-intro-summary {
+  font-size: 0.9em;
+  margin-bottom: 10px;
+}
+
+.movie-intro-genres {
+  list-style: none;
+  padding: 0;
+}
+
+.movie-intro-genres li {
+  margin: 5px;
+  display: inline-block;
+  background-color: #f0f0f0;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
